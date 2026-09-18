@@ -1,0 +1,152 @@
+[
+  {
+    "id": "bf6701ce-45d4-44d0-9ccf-64718b491f8e",
+    "category": "soil",
+    "topic": "soil_organic_carbon_thresholds",
+    "content": "Soil organic carbon (SOC) below 0.5-1.0% is considered critically degraded for most agricultural mineral soils, impairing structure, water holding capacity and microbial biomass. FAO's Global Soil Partnership classifies SOC < 0.6% in topsoil (0-30cm) as a strong indicator of desertification risk in drylands, while healthy cropland soils typically sustain 1.5-3% SOC depending on texture and climate.",
+    "metrics_affected": ["soil_organic_carbon", "microbial_diversity", "water_retention"],
+    "source": "FAO 2021 Global Soil Organic Carbon Map (GSOCmap) Technical Report",
+    "source_url": "https://www.fao.org/global-soil-partnership/pillars-action/4-information-and-data-soils/global-soil-organic-carbon-gsoc-map/en/",
+    "confidence": "high",
+    "quantitative_impact": "SOC below 0.6% correlates with 30-50% lower water infiltration capacity vs soils at 2% SOC",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "cropland"]
+    }
+  },
+  {
+    "id": "c0b82164-770f-4a48-a111-8349f42d6fb1",
+    "category": "soil",
+    "topic": "soil_ph_optimal_ranges",
+    "content": "Most crops and soil biota function optimally within a pH range of 6.0-7.5, where nutrient availability (N, P, K, micronutrients) is maximized. USDA NRCS soil surveys show that below pH 5.5, aluminum and manganese toxicity increases while phosphorus becomes unavailable; above pH 8.0, iron, zinc and manganese deficiencies become common, particularly in arid and semi-arid calcareous soils.",
+    "metrics_affected": ["soil_ph", "nutrient_availability", "microbial_diversity"],
+    "source": "USDA NRCS Soil Quality Indicators: pH",
+    "source_url": "https://www.nrcs.usda.gov/resources/education-and-teaching-materials/soil-quality-indicators",
+    "confidence": "high",
+    "quantitative_impact": "Nutrient availability drops by up to 40% outside the pH 6.0-7.5 range",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "temperate", "tropical", "humid"],
+      "land_use": ["cropland", "monoculture", "degraded cropland", "grassland"]
+    }
+  },
+  {
+    "id": "6f026993-d3d6-49ee-abff-588b67893db3",
+    "category": "soil",
+    "topic": "soil_moisture_microbial_activity",
+    "content": "Soil microbial activity peaks at 40-60% water-filled pore space (WFPS). Below 20% WFPS, microbial metabolism and nutrient cycling slow drastically due to desiccation stress; above 80% WFPS, anaerobic conditions dominate, favoring denitrification and reducing aerobic decomposer populations. Semi-arid soils frequently cycle between these stress extremes, suppressing long-term microbial community stability.",
+    "metrics_affected": ["soil_moisture_pct", "microbial_diversity", "nutrient_cycling"],
+    "source": "FAO & ITPS 2020, Global Assessment of the Impact of Plant Protection Products on Soil Functions",
+    "source_url": "https://www.fao.org/documents/card/en/c/ca9500en",
+    "confidence": "high",
+    "quantitative_impact": "Microbial respiration can fall by 60-70% when WFPS drops below 20%",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["cropland", "monoculture", "degraded cropland"]
+    }
+  },
+  {
+    "id": "2f44f585-aa37-473a-b611-b4b2b669cf51",
+    "category": "soil",
+    "topic": "cover_cropping_soc_impact",
+    "content": "Meta-analyses of cover cropping trials (e.g., Poeplau & Don, 2015) show that introducing cover crops in rotation increases soil organic carbon stocks by an average of 0.32 t C/ha/year, with gains concentrated in the top 0-30cm. In semi-arid systems, drought-tolerant legume cover crops (e.g., cowpea, vetch) also reduce bare-soil evaporation, improving subsequent-season moisture retention by 10-20%.",
+    "metrics_affected": ["soil_organic_carbon", "soil_moisture_pct", "microbial_diversity"],
+    "source": "Poeplau, C. & Don, A. (2015) Agriculture, Ecosystems & Environment; FAO Conservation Agriculture Guidelines 2021",
+    "source_url": "https://www.fao.org/conservation-agriculture/en/",
+    "confidence": "high",
+    "quantitative_impact": "+0.32 t C/ha/year SOC gain; 10-20% improved moisture retention",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "cropland"]
+    }
+  },
+  {
+    "id": "25eff456-328a-447a-8a8a-3a9a2ccb04ba",
+    "category": "soil",
+    "topic": "tillage_frequency_carbon_loss",
+    "content": "Conventional intensive tillage accelerates soil organic matter oxidation by breaking soil aggregates and exposing protected carbon to microbial decomposition. IPCC AR6 WG3 estimates conventional tillage cropland loses SOC at 0.5-1% per year relative to no-till systems, while no-till/reduced-till practices can sequester an additional 0.2-0.5 t C/ha/year over a 20-year horizon.",
+    "metrics_affected": ["soil_organic_carbon", "water_retention"],
+    "source": "IPCC AR6 Working Group III, Chapter 7: Agriculture, Forestry and Other Land Uses (2022)",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg3/",
+    "confidence": "high",
+    "quantitative_impact": "No-till sequesters +0.2-0.5 t C/ha/year vs conventional tillage",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland", "degraded cropland"]
+    }
+  },
+  {
+    "id": "e4d5e248-98fc-4465-997a-6a5496aa6c7a",
+    "category": "soil",
+    "topic": "soil_salinity_arid_zones",
+    "content": "In arid and semi-arid irrigated systems, poor drainage combined with high evapotranspiration leads to secondary salinization, affecting an estimated 20% of irrigated cropland globally (FAO, 2021). Electrical conductivity (EC) above 4 dS/m significantly reduces yields of salt-sensitive crops and depresses soil microbial biomass by disrupting osmotic balance.",
+    "metrics_affected": ["soil_ph", "microbial_diversity", "land_use_diversity"],
+    "source": "FAO 2021, Global Map of Salt-affected Soils (GSASmap)",
+    "source_url": "https://www.fao.org/soils-portal/soil-survey/soil-maps-and-databases/global-map-of-salt-affected-soils/en/",
+    "confidence": "medium",
+    "quantitative_impact": "EC > 4 dS/m associated with 20-50% yield loss in salt-sensitive crops",
+    "applicable_conditions": {
+      "climate": ["arid", "semi-arid"],
+      "land_use": ["irrigated cropland", "monoculture"]
+    }
+  },
+  {
+    "id": "f7896fb7-d186-413c-98b4-e3288dd0021d",
+    "category": "soil",
+    "topic": "mycorrhizal_networks_biodiversity",
+    "content": "Arbuscular mycorrhizal fungi (AMF) networks extend plant root systems' effective water and phosphorus uptake area by up to 100-fold. Monoculture systems with high synthetic fertilizer inputs show 40-60% lower AMF colonization rates than diversified rotations, reducing the below-ground fungal 'wood-wide web' that supports inter-plant nutrient transfer and soil aggregate stability.",
+    "metrics_affected": ["microbial_diversity", "soil_organic_carbon", "species_richness"],
+    "source": "Bender, S.F. et al. (2016) Trends in Ecology & Evolution: An Underground Revolution",
+    "source_url": "https://doi.org/10.1016/j.tree.2016.02.016",
+    "confidence": "high",
+    "quantitative_impact": "40-60% lower AMF colonization under monoculture + high fertilizer input",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "degraded cropland"]
+    }
+  },
+  {
+    "id": "d04cc4e6-13af-43fd-bcd1-8797265c00f7",
+    "category": "soil",
+    "topic": "soil_structure_water_infiltration",
+    "content": "Rawls et al. (2003) demonstrated that each 1% increase in soil organic matter can increase plant-available water holding capacity by approximately 3.7%. Degraded soils with weak aggregate structure show infiltration rates up to 30% lower than well-aggregated soils, increasing runoff and erosion risk during high-intensity rainfall events typical of semi-arid climates.",
+    "metrics_affected": ["water_retention", "soil_organic_carbon", "soil_moisture_pct"],
+    "source": "Rawls, W.J. et al. (2003) Geoderma: Effect of soil organic carbon on soil water retention",
+    "source_url": "https://doi.org/10.1016/S0016-7061(03)00223-4",
+    "confidence": "high",
+    "quantitative_impact": "Water infiltration reduced by up to 30% in structurally degraded soils",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["degraded cropland", "monoculture"]
+    }
+  },
+  {
+    "id": "496af492-e4e6-4476-9d8b-05a181cdcf4e",
+    "category": "soil",
+    "topic": "nitrogen_fixation_legume_intercropping",
+    "content": "Legume-based intercropping and agroforestry (e.g., Gliricidia sepium, Faidherbia albida, cowpea, pigeon pea) fix atmospheric nitrogen via rhizobia symbiosis, contributing 50-300 kg N/ha/year depending on species and management. This biologically fixed nitrogen increases soil organic carbon and microbial biomass carbon within 2-3 growing seasons, reducing dependency on synthetic fertilizer.",
+    "metrics_affected": ["soil_organic_carbon", "microbial_diversity", "species_richness"],
+    "source": "Lal, R. (2004) Science: Soil Carbon Sequestration Impacts on Global Climate Change and Food Security",
+    "source_url": "https://doi.org/10.1126/science.1097396",
+    "confidence": "high",
+    "quantitative_impact": "SOC increases 15-25% over 2-3 years under legume intercropping",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "cropland"]
+    }
+  },
+  {
+    "id": "4c69bd07-690e-4515-a82c-5e3b789887d4",
+    "category": "soil",
+    "topic": "soil_erosion_rates_bare_soil",
+    "content": "Bare or sparsely vegetated soils in semi-arid regions can erode at rates exceeding 10-20 t/ha/year under intense rainfall, compared to <1 t/ha/year under continuous vegetative cover. FAO estimates soil is being lost 10-100 times faster than it forms under conventional tillage on sloped or exposed land, directly reducing the topsoil depth available for root growth and soil fauna habitat.",
+    "metrics_affected": ["soil_organic_carbon", "water_retention", "species_richness"],
+    "source": "FAO & ITPS 2015, Status of the World's Soil Resources",
+    "source_url": "https://www.fao.org/3/i5199e/i5199e.pdf",
+    "confidence": "high",
+    "quantitative_impact": "Erosion 10-100x natural soil formation rate under bare/tilled conditions",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "degraded cropland", "bare soil"]
+    }
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "3f7056fd-e60d-40a8-9b26-199832e7e7b4",
+    "category": "climate",
+    "topic": "rainfall_vegetation_correlation",
+    "content": "In semi-arid and arid ecosystems, vegetation density (NDVI) correlates strongly with cumulative rainfall, but the relationship is non-linear and mediated by soil water-holding capacity: degraded low-SOC soils convert a smaller fraction of rainfall into plant-available soil moisture due to increased runoff, meaning vegetation response to a given rainfall amount is systematically lower on degraded land than on healthy soil.",
+    "metrics_affected": ["vegetation_density", "soil_moisture_pct", "species_survival"],
+    "source": "IPCC AR6 Working Group II, Chapter 4: Water (2022)",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "quantitative_impact": "Degraded soils convert up to 30% less rainfall into usable soil moisture",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "degraded cropland"]
+    }
+  },
+  {
+    "id": "521a56eb-f9e1-4171-b649-fd9a47c8b42d",
+    "category": "climate",
+    "topic": "temperature_stress_thresholds_crops",
+    "content": "IPCC AR6 WG2 identifies that many staple crops (wheat, maize) experience significant yield penalties when daytime temperatures exceed 30-34°C during flowering and grain-fill stages, with yield loss estimated at 5-10% per degree Celsius above the optimal threshold. Semi-arid regions are projected to see increasing frequency of these heat-stress events under continued warming.",
+    "metrics_affected": ["species_survival", "vegetation_density"],
+    "source": "IPCC AR6 Working Group II, Chapter 5: Food, Fibre and Other Ecosystem Products (2022)",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "quantitative_impact": "5-10% yield loss per °C above optimal threshold during flowering/grain-fill",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "48c45102-e9b4-4eac-b5f4-f5315c53158d",
+    "category": "climate",
+    "topic": "drought_resilience_diversification",
+    "content": "IPCC AR6 highlights diversified cropping systems (intercropping, agroforestry, drought-tolerant varieties) as a key climate adaptation strategy, showing 15-30% smaller yield variance under drought years compared to monocultures, because different species/varieties have staggered water demand peaks and root architectures that access different soil depths.",
+    "metrics_affected": ["species_survival", "water_retention", "land_use_diversity"],
+    "source": "IPCC AR6 Working Group II, Chapter 5 (2022); FAO Climate-Smart Agriculture Sourcebook",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "quantitative_impact": "15-30% lower yield variance under drought with diversified systems",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "f8cc66e8-987d-4e18-8739-798e4895e655",
+    "category": "climate",
+    "topic": "evapotranspiration_land_cover",
+    "content": "Vegetative cover, particularly tree canopy, reduces soil surface evaporation and moderates the local water balance by increasing infiltration and reducing peak soil temperatures. Removal of tree cover in semi-arid basins has been linked to measurable declines in local rainfall recycling, since transpired moisture from vegetation contributes to downwind precipitation formation.",
+    "metrics_affected": ["soil_moisture_pct", "vegetation_density", "rainfall"],
+    "source": "Ellison, D. et al. (2017) Global Environmental Change: Trees, forests and water",
+    "source_url": "https://doi.org/10.1016/j.gloenvcha.2017.01.002",
+    "confidence": "medium",
+    "quantitative_impact": "Deforestation reduces regional moisture recycling contribution to rainfall by 10-30% in some basins",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "tropical"],
+      "land_use": ["deforested land", "monoculture"]
+    }
+  },
+  {
+    "id": "c3774610-151f-4e1b-ac84-b87d1640ef7e",
+    "category": "climate",
+    "topic": "semi_arid_rainfall_variability",
+    "content": "Semi-arid regions are defined by an aridity index (precipitation/potential evapotranspiration) of 0.2-0.5, typically receiving 250-600mm annual rainfall concentrated in short, high-intensity events with high inter-annual variability. This variability, rather than total rainfall alone, is a primary driver of vegetation stress and necessitates water-harvesting and soil-moisture-conserving practices.",
+    "metrics_affected": ["vegetation_density", "soil_moisture_pct", "species_survival"],
+    "source": "UNCCD & FAO, Aridity Zones Classification (UNEP 1992, updated FAO 2019)",
+    "source_url": "https://www.fao.org/land-water/land/land-governance/land-resources-planning-toolbox/category/details/en/c/1032783/",
+    "confidence": "high",
+    "quantitative_impact": "Semi-arid zones: 250-600mm annual rainfall, aridity index 0.2-0.5",
+    "applicable_conditions": {
+      "climate": ["semi-arid"],
+      "land_use": ["monoculture", "cropland", "degraded cropland"]
+    }
+  },
+  {
+    "id": "4af2be40-5df5-4e4f-890d-75be2ab1a78a",
+    "category": "climate",
+    "topic": "carbon_sequestration_climate_mitigation",
+    "content": "IPCC AR6 WG3 estimates that improved cropland and grassland management (agroforestry, cover cropping, reduced tillage, rotational grazing) collectively hold a global technical mitigation potential of 2-4 GtCO2-eq/year by 2030, representing one of the largest and most cost-effective land-based climate mitigation levers alongside afforestation.",
+    "metrics_affected": ["soil_organic_carbon", "vegetation_density"],
+    "source": "IPCC AR6 Working Group III, Chapter 7 (2022)",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg3/",
+    "confidence": "high",
+    "quantitative_impact": "2-4 GtCO2-eq/year global mitigation potential from improved land management",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "b93d8612-6a5e-4c39-836f-40419632e5b3",
+    "category": "climate",
+    "topic": "microclimate_buffering_tree_cover",
+    "content": "Tree cover and shelterbelts provide microclimate buffering, reducing understorey wind speed and peak temperatures, which lowers crop water stress and evapotranspiration demand. Field trials in semi-arid agroforestry systems report 12-18% improved effective water-use efficiency for intercropped species relative to open-field monoculture.",
+    "metrics_affected": ["water_retention", "vegetation_density", "species_survival"],
+    "source": "FAO 2021 Conservation Agriculture Report; ICRAF Agroforestry Microclimate Studies",
+    "source_url": "https://www.fao.org/conservation-agriculture/en/",
+    "confidence": "medium",
+    "quantitative_impact": "+12-18% water-use efficiency under agroforestry microclimate buffering",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "7b3fd829-adbe-4fed-b624-c1f13893a8c4",
+    "category": "climate",
+    "topic": "climate_zone_classification_bands",
+    "content": "Köppen-Geiger and aridity-index-based climate classification places regions broadly into tropical (high, consistent rainfall/temperature), arid (aridity index <0.2), semi-arid (0.2-0.5), temperate (moderate, seasonal), and humid/continental zones. Latitude bands roughly correlate: equatorial ±10° = tropical; 15-35° often arid/semi-arid (subject to local topography and ocean currents); 35-55° = temperate; >55° = boreal/polar.",
+    "metrics_affected": ["region_climate_zone", "vegetation_density"],
+    "source": "Köppen-Geiger Climate Classification (Kottek et al. 2006 update)",
+    "source_url": "https://doi.org/10.1127/0941-2948/2006/0130",
+    "confidence": "medium",
+    "quantitative_impact": "N/A - classification reference",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical", "temperate", "humid"],
+      "land_use": ["any"]
+    }
+  },
+  {
+    "id": "e9e52946-64fb-4e2c-a96d-7278b453f735",
+    "category": "climate",
+    "topic": "extreme_heat_pollinator_activity",
+    "content": "Pollinator foraging activity, particularly for wild bees, declines sharply above ambient temperatures of 35-38°C, as thermal stress limits flight muscle performance and increases desiccation risk. In warming semi-arid regions, this creates a growing mismatch between crop flowering periods and effective pollinator activity windows.",
+    "metrics_affected": ["pollinator_density", "species_survival"],
+    "source": "IPCC AR6 Working Group II, Chapter 2: Terrestrial and Freshwater Ecosystems (2022)",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "medium",
+    "quantitative_impact": "Pollinator foraging activity drops sharply above 35-38°C ambient temperature",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "98a60755-5a5a-498b-b1f6-6c435101ac03",
+    "category": "climate",
+    "topic": "water_harvesting_practices_impact",
+    "content": "Low-cost water-harvesting structures (contour bunds, half-moon pits/zai pits, check dams) used widely in Sahelian and South Asian semi-arid agriculture can raise effective plant-available soil moisture by 20-40%, restoring degraded land productivity even without increasing total rainfall, by capturing and concentrating runoff into the root zone.",
+    "metrics_affected": ["soil_moisture_pct", "water_retention", "vegetation_density"],
+    "source": "FAO 2021, Water Harvesting Techniques for Dryland Agriculture",
+    "source_url": "https://www.fao.org/land-water/water/watergovernance/waterindicators/en/",
+    "confidence": "medium",
+    "quantitative_impact": "+20-40% plant-available soil moisture from water-harvesting structures",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "degraded cropland"]
+    }
+  }
+]

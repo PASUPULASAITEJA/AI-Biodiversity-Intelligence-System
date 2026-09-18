@@ -1,0 +1,152 @@
+[
+  {
+    "id": "c61bd925-89a9-4897-b508-5b873ae0d5d9",
+    "category": "human_impact",
+    "topic": "deforestation_biodiversity_loss_correlation",
+    "content": "FAO's Global Forest Resources Assessment (2020) recorded a net global forest loss of approximately 4.7 million hectares per year (2010-2020), concentrated in tropical regions. IPBES (2019) directly links deforestation rate to biodiversity decline: regions with the highest deforestation rates show the steepest declines in the Living Planet Index, with vertebrate population sizes falling by an average of 68% globally between 1970-2016 in monitored populations.",
+    "metrics_affected": ["deforestation_rate_pct", "species_richness", "habitat_fragmentation"],
+    "source": "FAO 2020 FRA; WWF & ZSL Living Planet Report 2020",
+    "source_url": "https://www.fao.org/forest-resources-assessment/en/",
+    "confidence": "high",
+    "quantitative_impact": "68% average decline in monitored vertebrate populations 1970-2016",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate", "semi-arid"],
+      "land_use": ["deforested land", "monoculture"]
+    }
+  },
+  {
+    "id": "b9dfd69a-154a-4e03-8575-dec028d2786d",
+    "category": "human_impact",
+    "topic": "pesticide_impact_soil_microbiome",
+    "content": "FAO & ITPS (2020) global assessment of plant protection products found that broad-spectrum pesticide and herbicide use reduces soil microbial biomass by 15-30% and can suppress key functional groups such as nitrogen-fixing bacteria and mycorrhizal fungi. Neonicotinoid seed treatments in particular have documented sub-lethal effects on soil-dwelling and pollinating insects even at low residual concentrations.",
+    "metrics_affected": ["microbial_diversity", "pollinator_density", "soil_organic_carbon"],
+    "source": "FAO & ITPS 2020, Global Assessment of the Impact of Plant Protection Products on Soil Functions",
+    "source_url": "https://www.fao.org/documents/card/en/c/ca9500en",
+    "confidence": "high",
+    "quantitative_impact": "15-30% reduction in soil microbial biomass under broad-spectrum pesticide regimes",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "97add0d9-3e53-40d5-bfd1-247537062dcd",
+    "category": "human_impact",
+    "topic": "synthetic_fertilizer_biodiversity_tradeoff",
+    "content": "While synthetic nitrogen fertilizer boosts short-term yields, chronic over-application leaches nitrate into waterways causing eutrophication, and has been shown to reduce plant species richness in grasslands by favoring a small number of fast-growing competitive species over slower-growing, nutrient-conservative natives. CBD reports nutrient pollution as one of the top five direct drivers of biodiversity loss globally.",
+    "metrics_affected": ["species_richness", "microbial_diversity", "pollution_level"],
+    "source": "CBD 2022, Global Biodiversity Outlook 5 / Global Biodiversity Framework baseline report",
+    "source_url": "https://www.cbd.int/gbo/gbo5/publication/gbo-5-en.pdf",
+    "confidence": "high",
+    "quantitative_impact": "Chronic over-fertilization associated with 20-50% plant species richness decline in affected grasslands",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid", "tropical"],
+      "land_use": ["monoculture", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "918425f5-1f25-4b98-b02c-729e8ae6b69a",
+    "category": "human_impact",
+    "topic": "overgrazing_land_degradation",
+    "content": "Overgrazing beyond a rangeland's carrying capacity compacts soil, reduces vegetative cover, and accelerates erosion; UNCCD estimates overgrazing contributes to land degradation on roughly 20% of the world's rangelands. Rotational/managed grazing systems that mimic natural herd movement patterns can restore vegetation cover and soil organic carbon within 3-5 years in semi-arid rangelands.",
+    "metrics_affected": ["soil_organic_carbon", "vegetation_density", "species_richness"],
+    "source": "UNCCD 2017, Global Land Outlook",
+    "source_url": "https://www.unccd.int/resources/global-land-outlook/global-land-outlook-first-edition",
+    "confidence": "medium",
+    "quantitative_impact": "Overgrazing implicated in degradation of ~20% of global rangelands",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["grassland", "rangeland"]
+    }
+  },
+  {
+    "id": "af49a932-7a8d-47c7-a278-330ed23274a1",
+    "category": "human_impact",
+    "topic": "water_pollution_agriculture_runoff",
+    "content": "Agricultural runoff carrying nitrogen, phosphorus and pesticide residues is the leading cause of freshwater eutrophication and hypoxic 'dead zones', such as the Gulf of Mexico dead zone which has averaged over 5,000 square miles in recent years (NOAA). Riparian buffers and reduced fertilizer application timing/rates are primary mitigation levers for this pollution pathway.",
+    "metrics_affected": ["pollution_level", "species_richness", "water_retention"],
+    "source": "NOAA & USGS Gulf of Mexico Hypoxia Monitoring Program",
+    "source_url": "https://www.epa.gov/ms-htf",
+    "confidence": "high",
+    "quantitative_impact": "Gulf of Mexico dead zone averages >5,000 sq mi driven by agricultural nutrient runoff",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "1cdc9752-26df-4284-bfeb-006363ffb3d5",
+    "category": "human_impact",
+    "topic": "monoculture_pest_vulnerability",
+    "content": "Large-scale monoculture reduces the genetic and species diversity available to buffer against pest and disease outbreaks, a phenomenon documented repeatedly since the Irish Potato Famine and more recently in banana (Panama disease/TR4) and coffee (leaf rust) systems. FAO promotes crop diversification explicitly as a resilience strategy against this systemic vulnerability.",
+    "metrics_affected": ["land_use_diversity", "species_richness"],
+    "source": "FAO 2019, The State of the World's Biodiversity for Food and Agriculture",
+    "source_url": "https://www.fao.org/documents/card/en/c/CA3129EN/",
+    "confidence": "high",
+    "quantitative_impact": "N/A - qualitative systemic risk finding",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "tropical", "temperate"],
+      "land_use": ["monoculture"]
+    }
+  },
+  {
+    "id": "f6b19cfb-a614-4f2d-80d0-d2548305f0f5",
+    "category": "human_impact",
+    "topic": "air_pollution_vegetation_stress",
+    "content": "Ground-level ozone and particulate matter pollution, often originating from nearby industrial or urban sources, can reduce photosynthetic efficiency in crops and native vegetation by 5-15%, exacerbating drought and heat stress in already-marginal semi-arid growing conditions. CBD and WHO jointly flag air pollution as an underrecognized driver of both agricultural yield loss and ecosystem stress.",
+    "metrics_affected": ["pollution_level", "vegetation_density", "species_survival"],
+    "source": "WHO/CBD Joint Report on Biodiversity and Health (2015, updated indicators 2021)",
+    "source_url": "https://www.cbd.int/health/SOK-biodiversity-en.pdf",
+    "confidence": "medium",
+    "quantitative_impact": "5-15% photosynthetic efficiency reduction under elevated ozone/particulate exposure",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland", "peri-urban"]
+    }
+  },
+  {
+    "id": "c8f3b949-74e6-4b5c-b548-65992339681d",
+    "category": "human_impact",
+    "topic": "invasive_species_introduction_risk",
+    "content": "IPBES (2019) identifies invasive alien species as one of the five major direct drivers of biodiversity loss, implicated in 60% of recorded global species extinctions. Disturbed and simplified land-use systems (monocultures, degraded land) are disproportionately vulnerable to invasive establishment because they lack the competitive native biodiversity that otherwise provides biotic resistance.",
+    "metrics_affected": ["species_richness", "land_use_diversity"],
+    "source": "IPBES 2019, Global Assessment Report; IPBES 2023 Invasive Alien Species Assessment",
+    "source_url": "https://www.ipbes.net/invasive-alien-species-assessment",
+    "confidence": "high",
+    "quantitative_impact": "Invasive species implicated in 60% of recorded global species extinctions",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate", "semi-arid"],
+      "land_use": ["degraded cropland", "monoculture", "deforested land"]
+    }
+  },
+  {
+    "id": "84407734-710a-4bfe-a51e-d39c94362bf7",
+    "category": "human_impact",
+    "topic": "groundwater_overextraction_arid_agriculture",
+    "content": "Intensive irrigation reliant on groundwater in arid and semi-arid agriculture has led to documented aquifer depletion (e.g., North China Plain, California Central Valley, North-West India), with water tables falling 1-3 meters per year in the most stressed basins. This undermines long-term irrigation viability and reduces baseflow to streams and wetlands that support downstream biodiversity.",
+    "metrics_affected": ["water_retention", "species_richness", "soil_moisture_pct"],
+    "source": "FAO AQUASTAT & World Bank 2021, Groundwater Depletion Reports",
+    "source_url": "https://www.fao.org/aquastat/en/",
+    "confidence": "high",
+    "quantitative_impact": "Water tables falling 1-3 m/year in most-stressed irrigated basins",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["irrigated cropland", "monoculture"]
+    }
+  },
+  {
+    "id": "9593d83d-8448-4fb4-b03f-3471b25f1765",
+    "category": "human_impact",
+    "topic": "plastic_and_chemical_soil_contamination",
+    "content": "Accumulation of agricultural plastics (mulch film residues) and heavy metals from long-term agrochemical and wastewater irrigation use degrade soil physical structure and can bioaccumulate in soil fauna and crops. FAO (2021) estimates agricultural plastic use exceeds 12.5 million tonnes annually, with mulch film fragments shown to reduce soil water infiltration and earthworm survival rates in controlled trials.",
+    "metrics_affected": ["pollution_level", "soil_organic_carbon", "species_richness"],
+    "source": "FAO 2021, Assessment of Agricultural Plastics and their Sustainability",
+    "source_url": "https://www.fao.org/documents/card/en/c/cb7856en",
+    "confidence": "medium",
+    "quantitative_impact": ">12.5 million tonnes/year global agricultural plastic use",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  }
+]

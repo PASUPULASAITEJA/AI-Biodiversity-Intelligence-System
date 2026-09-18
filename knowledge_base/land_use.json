@@ -1,0 +1,152 @@
+[
+  {
+    "id": "abf39070-09fb-4438-acc6-1c2b1e0e112f",
+    "category": "land_use",
+    "topic": "agroforestry_biodiversity_impact",
+    "content": "Global meta-analyses of agroforestry systems (trees integrated with crops/livestock) show 30-50% higher species richness of birds, arthropods and soil fauna compared to adjacent monoculture plots. Agroforestry also buffers microclimate, reducing peak daytime temperatures by 2-4°C under canopy, which lowers evapotranspiration stress on intercropped species.",
+    "metrics_affected": ["species_richness", "habitat_diversity_index", "land_use_diversity"],
+    "source": "FAO 2021, Agroforestry for Sustainable Agriculture and Climate Resilience",
+    "source_url": "https://www.fao.org/agroforestry/en/",
+    "confidence": "high",
+    "quantitative_impact": "+30-50% species richness vs monoculture; -2-4°C canopy microclimate buffering",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "cropland"]
+    }
+  },
+  {
+    "id": "52253a60-7a86-4a2f-8686-0748678aab45",
+    "category": "land_use",
+    "topic": "monoculture_vs_polyculture_diversity",
+    "content": "Tilman et al. (2001) long-term grassland experiments found that plots with higher plant species diversity produced 2.7 times more aboveground biomass and supported significantly higher densities of pollinators and natural pest predators than monocultures. Monoculture systems simplify trophic structure, leaving crops more vulnerable to pest outbreaks and reducing functional redundancy in the ecosystem.",
+    "metrics_affected": ["species_richness", "land_use_diversity", "pollinator_density"],
+    "source": "Tilman, D. et al. (2001) Science: Diversity and Productivity in a Long-Term Grassland Experiment",
+    "source_url": "https://doi.org/10.1126/science.1060391",
+    "confidence": "high",
+    "quantitative_impact": "2.7x biomass productivity gain from diversified vs monoculture plots",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid", "tropical"],
+      "land_use": ["monoculture", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "0b4dec1a-b2d7-4856-b51b-b6ca701c9d6c",
+    "category": "land_use",
+    "topic": "habitat_fragmentation_species_loss",
+    "content": "The IPBES Global Assessment (2019) identifies land-use change as the largest direct driver of terrestrial biodiversity loss globally. Habitat fragmentation reduces effective patch size below the minimum viable area for many species; fragments smaller than 10 hectares lose on average 50% of their original forest-dependent species richness within decades due to edge effects and isolation.",
+    "metrics_affected": ["habitat_fragmentation", "species_richness", "genetic_diversity"],
+    "source": "IPBES 2019, Global Assessment Report on Biodiversity and Ecosystem Services",
+    "source_url": "https://www.ipbes.net/global-assessment",
+    "confidence": "high",
+    "quantitative_impact": "Fragments <10 ha lose ~50% of forest-dependent species richness",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate", "semi-arid"],
+      "land_use": ["deforested land", "monoculture", "urban expansion"]
+    }
+  },
+  {
+    "id": "db83758a-9ad8-4e5e-8fd9-d06bf2c1cde4",
+    "category": "land_use",
+    "topic": "intercropping_pest_regulation",
+    "content": "Push-pull and intercropping systems (e.g., maize-Desmodium-Napier grass) reduce stemborer and Striga infestations by 80-90% while simultaneously increasing beneficial insect abundance, as documented across smallholder trials in East Africa. Diversified cropping architecture disrupts pest host-finding cues and provides refuge habitat for natural enemies.",
+    "metrics_affected": ["pollinator_density", "species_richness", "land_use_diversity"],
+    "source": "icipe (International Centre of Insect Physiology and Ecology), Push-Pull Technology Reports 2018-2021",
+    "source_url": "https://www.push-pull.net/",
+    "confidence": "high",
+    "quantitative_impact": "80-90% reduction in stemborer/Striga infestation under push-pull intercropping",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "101e6517-ed2b-43ee-a30b-40b0fe9ed467",
+    "category": "land_use",
+    "topic": "shelterbelts_windbreaks_erosion_control",
+    "content": "Tree shelterbelts reduce wind speed by 20-50% for a downwind distance of up to 20 times tree height, reducing wind erosion of topsoil by up to 65% in exposed semi-arid croplands. Shelterbelts also act as biodiversity corridors, connecting otherwise isolated habitat fragments for birds and pollinators.",
+    "metrics_affected": ["habitat_fragmentation", "soil_organic_carbon", "species_richness"],
+    "source": "FAO 2010, Shelterbelts and Windbreaks: Global Review of Impacts",
+    "source_url": "https://www.fao.org/forestry/agroforestry/en/",
+    "confidence": "medium",
+    "quantitative_impact": "Wind erosion reduced up to 65% behind shelterbelts",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "degraded cropland"]
+    }
+  },
+  {
+    "id": "ec0ab0c1-c46d-4e91-a9d5-3c8466a48e6d",
+    "category": "land_use",
+    "topic": "crop_rotation_diversity_index",
+    "content": "Extending crop rotations from 2 to 4+ species (cereal-legume-oilseed-cover crop sequences) increases functional land-use diversity and has been shown in long-term European trials to raise soil organic carbon by 4-15% and reduce reliance on synthetic nitrogen by up to 30%, while supporting a broader range of pollinator flowering resources across the season.",
+    "metrics_affected": ["land_use_diversity", "soil_organic_carbon", "pollinator_density"],
+    "source": "Barbieri, P. et al. (2017) Nature Communications: Comparing crop rotations between organic and conventional farming",
+    "source_url": "https://doi.org/10.1038/s41598-017-08066-5",
+    "confidence": "medium",
+    "quantitative_impact": "+4-15% SOC; -30% synthetic N reliance with 4+ crop rotations",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "049e48c9-a55c-492d-8917-c7c126ab39a1",
+    "category": "land_use",
+    "topic": "urban_expansion_habitat_loss",
+    "content": "IPBES (2019) reports that urban areas have more than doubled since 1992, with impervious surface expansion directly eliminating habitat and severing ecological corridors. Urban and peri-urban expansion is a primary driver of local extinction for ground-nesting pollinators and amphibians, which require unfragmented soil and wetland habitat for lifecycle completion.",
+    "metrics_affected": ["habitat_fragmentation", "species_richness", "land_use_diversity"],
+    "source": "IPBES 2019, Global Assessment Report on Biodiversity and Ecosystem Services",
+    "source_url": "https://www.ipbes.net/global-assessment",
+    "confidence": "high",
+    "quantitative_impact": "Urban land area >2x increase since 1992 globally",
+    "applicable_conditions": {
+      "climate": ["temperate", "tropical", "semi-arid", "arid"],
+      "land_use": ["urban expansion", "peri-urban"]
+    }
+  },
+  {
+    "id": "9104fc57-cd92-440d-9da3-37649dbe652a",
+    "category": "land_use",
+    "topic": "silvopasture_carbon_biodiversity",
+    "content": "Silvopasture systems (trees + livestock grazing) sequester 2-4 times more carbon per hectare than treeless pasture, while providing shade that reduces heat stress on livestock and understorey vegetation. Silvopasture adoption in semi-arid rangelands has been associated with 20-40% increases in ground-nesting bird and reptile diversity due to structural habitat complexity.",
+    "metrics_affected": ["soil_organic_carbon", "species_richness", "habitat_diversity_index"],
+    "source": "FAO 2018, Climate-Smart Agriculture Sourcebook, Silvopastoral Systems",
+    "source_url": "https://www.fao.org/climate-smart-agriculture-sourcebook/en/",
+    "confidence": "medium",
+    "quantitative_impact": "2-4x carbon sequestration vs treeless pasture; +20-40% ground fauna diversity",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "tropical"],
+      "land_use": ["grassland", "monoculture", "rangeland"]
+    }
+  },
+  {
+    "id": "f9769f6d-1dfc-4612-b382-77cfa2bbd83b",
+    "category": "land_use",
+    "topic": "field_margin_habitat_strips",
+    "content": "Sowing wildflower field margins and beetle banks around monoculture fields increases pollinator visitation rates by 20-45% and natural enemy abundance (predatory beetles, spiders) by up to 3x, providing crop pest suppression services without expanding the cropped footprint. These effects are strongest within 100-200m of field margins.",
+    "metrics_affected": ["pollinator_density", "species_richness", "land_use_diversity"],
+    "source": "Pywell, R.F. et al. (2015) Proceedings of the Royal Society B: Wildlife-friendly farming increases crop yield",
+    "source_url": "https://doi.org/10.1098/rspb.2015.1740",
+    "confidence": "high",
+    "quantitative_impact": "+20-45% pollinator visitation; up to 3x natural enemy abundance near margins",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "15e1e275-c1f6-4266-a82f-e7bae0c2a05d",
+    "category": "land_use",
+    "topic": "land_use_change_deforestation_conversion",
+    "content": "FAO's Global Forest Resources Assessment (2020) shows agricultural expansion is responsible for roughly 90% of global deforestation, with cattle ranching and monoculture cropland (soy, palm oil) the dominant drivers in tropical regions. Converting forest to monoculture cropland reduces above-ground species richness by 60-90% within the converted footprint and depresses adjacent-plot richness through edge effects.",
+    "metrics_affected": ["land_use_diversity", "species_richness", "deforestation_rate_pct"],
+    "source": "FAO 2020, Global Forest Resources Assessment (FRA)",
+    "source_url": "https://www.fao.org/forest-resources-assessment/en/",
+    "confidence": "high",
+    "quantitative_impact": "60-90% species richness loss upon forest-to-monoculture conversion",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate"],
+      "land_use": ["deforested land", "monoculture"]
+    }
+  }
+]

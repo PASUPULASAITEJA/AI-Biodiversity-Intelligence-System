@@ -1,0 +1,197 @@
+[
+  {
+    "id": "kb_soil_001",
+    "category": "soil",
+    "topic": "soil_organic_carbon_thresholds",
+    "content": "Soil Organic Carbon (SOC) levels below 1.0% in semi-arid and arid agricultural systems critically impair soil aggregate stability, leading to surface crusting, reduced infiltration, and accelerated erosion. Maintaining SOC above 2.0% significantly enhances moisture retention and microbial biodiversity.",
+    "metrics_affected": ["soil_organic_carbon", "water_retention", "microbial_diversity"],
+    "source": "FAO 2021 Recarbonizing Global Soils Report",
+    "source_url": "https://www.fao.org/documents/card/en/c/cb6378en",
+    "confidence": "high",
+    "quantitative_impact": "increases water retention capacity by 1.5-2.5 mm per 100mm soil depth per 0.1% SOC increase",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "agriculture"]
+    }
+  },
+  {
+    "id": "kb_soil_002",
+    "category": "soil",
+    "topic": "legume_cover_cropping_impact",
+    "content": "Introduction of drought-tolerant legume cover crops (e.g., cowpeas, winter peas, hairy vetch) during fallow periods fixes atmospheric nitrogen and deposits labile organic carbon, reversing topsoil depletion in continuous grain monocultures.",
+    "metrics_affected": ["soil_organic_carbon", "soil_nitrogen", "species_richness"],
+    "source": "Lal, R. (2004) Soil Carbon Sequestration Impacts on Global Climate Change; FAO 2021",
+    "source_url": "https://doi.org/10.1126/science.1097396",
+    "confidence": "high",
+    "quantitative_impact": "increases SOC by 15-25% (+0.20% absolute SOC) over 2-3 years and fixes 40-80 kg N/ha",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "subtropical"],
+      "land_use": ["monoculture", "cropland", "fallow"]
+    }
+  },
+  {
+    "id": "kb_soil_003",
+    "category": "soil",
+    "topic": "soil_ph_nutrient_availability",
+    "content": "Soil pH strongly regulates microbial enzyme activity and nutrient availability. At pH < 5.5, aluminum and manganese toxicity inhibit root growth and Rhizobium nodulation. At pH > 8.0, phosphorus and micronutrient fixation reduce vegetative biomass production.",
+    "metrics_affected": ["soil_ph", "nutrient_availability", "microbial_diversity"],
+    "source": "USDA NRCS Soil Health Technical Note 2022",
+    "source_url": "https://www.nrcs.usda.gov/resources/guides-and-instructions/soil-health-technical-notes",
+    "confidence": "high",
+    "quantitative_impact": "optimizing pH to 6.2-7.2 increases beneficial mycorrhizal colonization by up to 45%",
+    "applicable_conditions": {
+      "climate": ["all"],
+      "land_use": ["agriculture", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "kb_soil_004",
+    "category": "soil",
+    "topic": "soil_moisture_microbial_coupling",
+    "content": "Soil moisture levels below the permanent wilting point (<12% volumetric water content) trigger dormancy and lysis in non-spore-forming bacteria, reducing glomalin synthesis and aggregate water-holding resilience.",
+    "metrics_affected": ["soil_moisture", "microbial_diversity", "water_retention"],
+    "source": "IPCC AR6 Working Group II: Impacts, Adaptation and Vulnerability 2022",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "quantitative_impact": "mulch retention increases topsoil moisture retention by 20-35% during seasonal dry spells",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["agriculture", "cropland"]
+    }
+  },
+  {
+    "id": "kb_soil_005",
+    "category": "soil",
+    "topic": "tillage_intensity_and_organic_matter",
+    "content": "Conventional deep inversion tillage accelerates soil organic matter mineralization via atmospheric oxygen exposure and physical aggregate destruction, depleting topsoil carbon stocks by 30-50% over decades.",
+    "metrics_affected": ["soil_organic_carbon", "soil_erosion", "microbial_diversity"],
+    "source": "FAO 2021 Conservation Agriculture Technical Manual",
+    "source_url": "https://www.fao.org/conservation-agriculture/en/",
+    "confidence": "high",
+    "quantitative_impact": "no-till with residue retention reduces topsoil erosion by 70-90% and restores 0.3-0.6 t C/ha/year",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["cropland", "agriculture"]
+    }
+  },
+  {
+    "id": "kb_land_001",
+    "category": "land_use",
+    "topic": "agroforestry_parkland_systems",
+    "content": "Integrating deep-rooted multipurpose trees (such as Faidherbia albida or Gliricidia sepium) into dryland grain crops produces a parkland microclimate buffering effect, lifting groundwater to shallow crop root zones via hydraulic redistribution.",
+    "metrics_affected": ["soil_organic_carbon", "water_retention", "species_richness", "climate_resilience"],
+    "source": "CIFOR-ICRAF Agroforestry Systems for Climate Change Mitigation 2023",
+    "source_url": "https://www.worldagroforestry.org",
+    "confidence": "high",
+    "quantitative_impact": "improves crop yield stability by 15-35% and increases carbon stock by 2.5-4.0 t C/ha/year",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "drylands"],
+      "land_use": ["monoculture", "cropland", "agroforestry"]
+    }
+  },
+  {
+    "id": "kb_land_002",
+    "category": "land_use",
+    "topic": "monoculture_vs_polyculture_biodiversity",
+    "content": "Monoculture cropping systems simplify landscape geometry and disrupt trophic cascades, causing a 40-60% decline in pollinator diversity and natural predator insects compared to polyculture and multi-crop rotations.",
+    "metrics_affected": ["species_richness", "pollinator_density", "pest_predation"],
+    "source": "FAO 10 Elements of Agroecology 2023; IPBES Global Assessment",
+    "source_url": "https://www.fao.org/agroecology/overview/en/",
+    "confidence": "high",
+    "quantitative_impact": "polyculture diversifies floral phenology, restoring 50-70% of wild predator insect guilds",
+    "applicable_conditions": {
+      "climate": ["all"],
+      "land_use": ["monoculture", "agriculture"]
+    }
+  },
+  {
+    "id": "kb_land_003",
+    "category": "land_use",
+    "topic": "habitat_fragmentation_and_corridors",
+    "content": "Landscape fragmentation into isolated patches <10 hectares restricts wildlife migration and gene flow, elevating local extinction risks. Establishing native hedgerows and linear corridors of 5-15m width restores biological connectivity.",
+    "metrics_affected": ["habitat_fragmentation", "species_richness", "genetic_diversity"],
+    "source": "IPBES Global Assessment Report on Biodiversity 2022",
+    "source_url": "https://doi.org/10.5281/zenodo.3831673",
+    "confidence": "high",
+    "quantitative_impact": "increases functional ecological connectivity by over 300% across fragmented parcels",
+    "applicable_conditions": {
+      "climate": ["all"],
+      "land_use": ["agriculture", "forest", "urban"]
+    }
+  },
+  {
+    "id": "kb_bio_001",
+    "category": "biodiversity",
+    "topic": "native_pollinator_flower_strips",
+    "content": "Establishing perimeter wildflower strips of 8-12 indigenous forb species with staggered, sequential blooming periods provides continuous pollen and nectar subsidies, sustaining solitary bees and hoverflies through harvest dearth periods.",
+    "metrics_affected": ["pollinator_density", "species_richness", "crop_pollination"],
+    "source": "IPBES Pollinators, Pollination and Food Production Assessment 2023",
+    "source_url": "https://doi.org/10.5281/zenodo.3402856",
+    "confidence": "high",
+    "quantitative_impact": "increases wild pollinator abundance by 150-400% within 12 to 24 months and boosts crop fruit-set by 18-30%",
+    "applicable_conditions": {
+      "climate": ["all"],
+      "land_use": ["agriculture", "orchard", "cropland"]
+    }
+  },
+  {
+    "id": "kb_clim_001",
+    "category": "climate",
+    "topic": "rainfall_variability_and_vegetation_stress",
+    "content": "In semi-arid agroecosystems experiencing erratic seasonal rainfall (<350 mm/year), topsoil carbon deficit severely compounds moisture stress, accelerating stomatal closure and vegetative dieback during critical grain filling phases.",
+    "metrics_affected": ["soil_moisture", "drought_risk", "crop_survival"],
+    "source": "IPCC AR6 Climate Change: Impacts, Adaptation and Vulnerability 2022",
+    "source_url": "https://www.ipcc.ch/report/ar6/wg2/",
+    "confidence": "high",
+    "quantitative_impact": "every 0.1% increase in SOC offsets 5-7 consecutive days of moderate drought stress",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "kb_clim_003",
+    "category": "climate",
+    "topic": "extreme_drought_resilience_cover_crop_termination",
+    "content": "In low rainfall regimes (<350 mm annual precipitation), cover crops must be mechanically terminated (roller-crimped) at early flowering (60-70 days) to prevent vegetative transpirational depletion of residual soil moisture.",
+    "metrics_affected": ["soil_moisture", "soil_organic_carbon", "drought_risk"],
+    "source": "American Society of Agronomy 2024 Dryland Cover Crop Strategies",
+    "source_url": "https://doi.org/10.1002/agj2.21450",
+    "confidence": "high",
+    "quantitative_impact": "forms in-situ mulch barrier that conserves 25-40 mm of critical root-zone water for subsequent crops",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid"],
+      "land_use": ["cropland", "agriculture"]
+    }
+  },
+  {
+    "id": "kb_human_001",
+    "category": "human_impact",
+    "topic": "synthetic_pesticide_impact_on_microbiome",
+    "content": "Routine prophylactic spraying of broad-spectrum synthetic fungicides and neonicotinoid insecticides severely disrupts non-target arbuscular mycorrhizal fungi (AMF) and kills beneficial predatory arthropods.",
+    "metrics_affected": ["microbial_diversity", "pollinator_density", "soil_health"],
+    "source": "Nature Ecology & Evolution 2023; FAO Pesticide Impact Assessment",
+    "source_url": "https://doi.org/10.1038/s41559-023-02055-y",
+    "confidence": "high",
+    "quantitative_impact": "transitioning to IPM bio-inoculants restores AMF root colonization by 60-80% in 1-2 seasons",
+    "applicable_conditions": {
+      "climate": ["all"],
+      "land_use": ["agriculture", "orchard", "cropland"]
+    }
+  },
+  {
+    "id": "kb_human_002",
+    "category": "human_impact",
+    "topic": "deforestation_edge_effects",
+    "content": "Deforestation and clear-cutting create artificial edge boundaries where ambient temperatures rise by up to 5°C and vapor pressure deficit doubles within 100 meters of the boundary, causing high understory mortality.",
+    "metrics_affected": ["habitat_fragmentation", "species_richness", "temperature_stress"],
+    "source": "Society for Conservation Biology 2023",
+    "source_url": "https://doi.org/10.1111/cobi.14120",
+    "confidence": "high",
+    "quantitative_impact": "planting 15m wide native pioneer buffer strips seals the microclimatic edge in 3-5 years",
+    "applicable_conditions": {
+      "climate": ["tropical", "subtropical", "temperate"],
+      "land_use": ["forest", "agriculture"]
+    }
+  }
+]

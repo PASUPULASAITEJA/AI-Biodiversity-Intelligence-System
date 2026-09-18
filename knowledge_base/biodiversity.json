@@ -1,0 +1,152 @@
+[
+  {
+    "id": "0e34d6d4-28c5-42e9-a905-bc7134253bdc",
+    "category": "biodiversity",
+    "topic": "species_area_relationship",
+    "content": "The species-area relationship (SAR), formalized as S = cA^z, predicts that species richness increases with habitat area following a power law, with z-values typically 0.20-0.35 for continental fragments. Practically, a 90% reduction in habitat area (z=0.25) predicts a loss of roughly 44% of species over time, making habitat area one of the single strongest predictors of extinction debt in fragmented landscapes.",
+    "metrics_affected": ["species_richness", "habitat_fragmentation"],
+    "source": "MacArthur, R.H. & Wilson, E.O. (1967) The Theory of Island Biogeography; IPBES 2019 synthesis",
+    "source_url": "https://www.ipbes.net/global-assessment",
+    "confidence": "high",
+    "quantitative_impact": "90% habitat loss predicts ~44% species loss at z=0.25",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate", "semi-arid"],
+      "land_use": ["deforested land", "monoculture", "urban expansion"]
+    }
+  },
+  {
+    "id": "80430b31-07df-4310-b412-661aebce9de5",
+    "category": "biodiversity",
+    "topic": "pollinator_decline_agriculture",
+    "content": "IPBES's 2016 Pollinators Assessment found that 75% of global food crop types depend at least partly on animal pollination, yet wild pollinator populations have declined in abundance and diversity across Europe and North America, driven by habitat loss, pesticide exposure and monoculture landscapes. Landscapes with less than 20% semi-natural habitat within 1km show significantly reduced wild bee species richness and crop pollination services.",
+    "metrics_affected": ["pollinator_density", "species_richness", "land_use_diversity"],
+    "source": "IPBES 2016, Assessment Report on Pollinators, Pollination and Food Production",
+    "source_url": "https://www.ipbes.net/pollinators",
+    "confidence": "high",
+    "quantitative_impact": "<20% semi-natural habitat within 1km linked to measurable pollination service decline",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid", "tropical"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "b810ec51-49ba-43e5-8368-310d144e729d",
+    "category": "biodiversity",
+    "topic": "keystone_species_trophic_cascades",
+    "content": "Removal of keystone species (e.g., apex predators, large herbivores, ecosystem-engineering species like earthworms or termites) can trigger trophic cascades that restructure entire communities. Classic examples include sea otters controlling urchin populations to preserve kelp forests, and wolves in Yellowstone altering elk browsing behavior, allowing riparian vegetation recovery and beaver population increases.",
+    "metrics_affected": ["keystone_species_survival", "species_richness", "genetic_diversity"],
+    "source": "Estes, J.A. et al. (2011) Science: Trophic Downgrading of Planet Earth",
+    "source_url": "https://doi.org/10.1126/science.1205106",
+    "confidence": "high",
+    "quantitative_impact": "Keystone species loss can cascade to >50% community composition shifts",
+    "applicable_conditions": {
+      "climate": ["temperate", "tropical", "semi-arid"],
+      "land_use": ["deforested land", "monoculture", "protected area"]
+    }
+  },
+  {
+    "id": "18a85bc5-e71d-4b35-9e3b-9143103d5f17",
+    "category": "biodiversity",
+    "topic": "shannon_diversity_index_benchmarks",
+    "content": "The Shannon diversity index (H') integrates species richness and evenness; values below 1.5 typically indicate a degraded or heavily disturbed community, 1.5-3.0 represents moderate diversity common in managed agricultural landscapes, and values above 3.0 indicate high diversity comparable to undisturbed natural habitats. Monitoring changes in H' over time is a standard method for tracking restoration progress.",
+    "metrics_affected": ["habitat_diversity_index", "species_richness"],
+    "source": "Shannon, C.E. (1948) Bell System Technical Journal; CBD Indicators for the 2020 Biodiversity Targets",
+    "source_url": "https://www.cbd.int/gbo/gbo4/publication/gbo4-en-hr.pdf",
+    "confidence": "high",
+    "quantitative_impact": "H' < 1.5 = degraded; H' > 3.0 = near-natural diversity",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "arid", "tropical", "temperate"],
+      "land_use": ["monoculture", "degraded cropland", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "8456c189-ed63-45d8-a23a-ab3ed567cf8c",
+    "category": "biodiversity",
+    "topic": "soil_fauna_biodiversity_earthworms",
+    "content": "Earthworm density and diversity are widely used bioindicators of soil health; conventional monoculture fields with intensive tillage and agrochemical use average 30-40 individuals/m2, compared to 150-400 individuals/m2 in diversified, reduced-till or organic systems. Earthworms improve porosity, water infiltration and nutrient cycling, directly linking soil fauna biodiversity to soil organic carbon dynamics.",
+    "metrics_affected": ["species_richness", "soil_organic_carbon", "microbial_diversity"],
+    "source": "Blakemore, R.J. (2018) Soil Systems: Earthworm and Soil Biodiversity Indicators",
+    "source_url": "https://doi.org/10.3390/soilsystems2030033",
+    "confidence": "medium",
+    "quantitative_impact": "Diversified systems host 3-10x more earthworms per m2 than conventional monoculture",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid", "tropical"],
+      "land_use": ["monoculture", "degraded cropland"]
+    }
+  },
+  {
+    "id": "d47055ec-b87c-44f2-a737-71789d9f5aa4",
+    "category": "biodiversity",
+    "topic": "genetic_diversity_population_isolation",
+    "content": "Small, isolated populations resulting from habitat fragmentation experience reduced gene flow, increasing inbreeding depression and loss of adaptive genetic variation. Conservation genetics literature suggests an effective population size (Ne) below 50 risks short-term inbreeding depression, while Ne below 500 risks long-term loss of evolutionary adaptive potential, the so-called '50/500 rule'.",
+    "metrics_affected": ["genetic_diversity", "keystone_species_survival", "habitat_fragmentation"],
+    "source": "Frankham, R. et al. (2014) Genetics in Conservation Management: Revised Recommendations",
+    "source_url": "https://doi.org/10.1016/j.biocon.2013.12.036",
+    "confidence": "medium",
+    "quantitative_impact": "Ne < 50 = short-term inbreeding risk; Ne < 500 = long-term adaptive potential loss",
+    "applicable_conditions": {
+      "climate": ["tropical", "temperate", "semi-arid"],
+      "land_use": ["deforested land", "protected area", "monoculture"]
+    }
+  },
+  {
+    "id": "8dbacbac-b389-414e-ac10-8bd5ef7f8c47",
+    "category": "biodiversity",
+    "topic": "flower_strip_pollinator_richness",
+    "content": "Perennial flower strips sown adjacent to cropland increase wild bee species richness by 2-3 fold within two growing seasons by providing continuous floral resources across the season, mitigating the 'hunger gap' common in monoculture flowering windows. Effects are most pronounced in landscapes with less than 15% natural habitat cover.",
+    "metrics_affected": ["pollinator_density", "species_richness"],
+    "source": "Scheper, J. et al. (2013) Ecology Letters: Environmental factors driving the effectiveness of European pollinator conservation measures",
+    "source_url": "https://doi.org/10.1111/ele.12194",
+    "confidence": "medium",
+    "quantitative_impact": "2-3x wild bee richness increase within 2 seasons of flower strip establishment",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  },
+  {
+    "id": "25c8d239-7a0b-494e-b361-f5903a7fe5d2",
+    "category": "biodiversity",
+    "topic": "habitat_diversity_index_thresholds",
+    "content": "Habitat diversity index scores (based on structural complexity, vertical strata, and land cover heterogeneity) below 0.3 (on a 0-1 normalized scale) indicate homogenous, simplified landscapes typical of intensive monoculture, which support markedly lower functional group richness than landscapes scoring above 0.6, which typically include a mosaic of cropland, hedgerows, woodlots and wetlands.",
+    "metrics_affected": ["habitat_diversity_index", "species_richness", "land_use_diversity"],
+    "source": "CBD Global Biodiversity Framework (2022), Monitoring Framework Indicators",
+    "source_url": "https://www.cbd.int/gbf",
+    "confidence": "medium",
+    "quantitative_impact": "Habitat diversity index >0.6 supports substantially higher functional group richness than <0.3",
+    "applicable_conditions": {
+      "climate": ["semi-arid", "temperate", "tropical"],
+      "land_use": ["monoculture", "cropland", "degraded cropland"]
+    }
+  },
+  {
+    "id": "82a7d733-34ee-40fe-a37e-9c162ad905e0",
+    "category": "biodiversity",
+    "topic": "riparian_buffer_biodiversity",
+    "content": "Riparian buffer strips of native vegetation along waterways in agricultural landscapes reduce sediment and nutrient runoff by 50-90% while providing critical corridor habitat for amphibians, birds and aquatic invertebrates. A buffer width of at least 10-30m is generally required to achieve meaningful biodiversity and water quality benefits.",
+    "metrics_affected": ["species_richness", "water_retention", "habitat_fragmentation"],
+    "source": "Sweeney, B.W. & Newbold, J.D. (2014) JAWRA: Streamside Forest Buffer Width Needed to Protect Stream Water Quality",
+    "source_url": "https://doi.org/10.1111/jawr.12203",
+    "confidence": "medium",
+    "quantitative_impact": "50-90% reduction in sediment/nutrient runoff with 10-30m buffers",
+    "applicable_conditions": {
+      "climate": ["temperate", "tropical", "semi-arid"],
+      "land_use": ["monoculture", "cropland", "grassland"]
+    }
+  },
+  {
+    "id": "bba754ce-6b6c-410b-a915-2cef9b1b0820",
+    "category": "biodiversity",
+    "topic": "insect_biomass_decline",
+    "content": "Long-term monitoring in protected areas (Hallmann et al., 2017) documented a 76% decline in flying insect biomass over 27 years, with agricultural intensification in surrounding landscapes implicated as a primary driver even within protected reserves. This has cascading implications for insectivorous birds, bats and pollination services in adjacent farmland.",
+    "metrics_affected": ["pollinator_density", "species_richness"],
+    "source": "Hallmann, C.A. et al. (2017) PLOS ONE: More than 75 percent decline over 27 years in total flying insect biomass",
+    "source_url": "https://doi.org/10.1371/journal.pone.0185809",
+    "confidence": "high",
+    "quantitative_impact": "76% decline in flying insect biomass over 27 years in studied reserves",
+    "applicable_conditions": {
+      "climate": ["temperate", "semi-arid"],
+      "land_use": ["monoculture", "cropland"]
+    }
+  }
+]
