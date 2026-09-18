@@ -74,8 +74,9 @@ export interface ChatTurnResult {
   type: "clarifying_question" | "recommendation";
   missingFields?: string[];
   message: string;
-  retrievedKnowledge?: { source: string; category: string; similarity: number; topic: string }[];
+  retrievedKnowledge?: { source: string; category: string; similarity: number; topic: string; content?: string }[];
   reasoningLog?: ReasoningLogStep[];
   structuredOutput?: StructuredRecommendationOutput;
+  causalChain?: string[];
   profile: SiteProfileData;
 }

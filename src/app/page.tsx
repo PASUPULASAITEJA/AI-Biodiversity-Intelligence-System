@@ -10,22 +10,50 @@ interface DisplayMessage {
   text: string;
   retrievedKnowledge?: ChatTurnResult["retrievedKnowledge"];
   reasoningLog?: ChatTurnResult["reasoningLog"];
+  timestamp?: string;
 }
 
-const PROFILE_FIELD_LABELS: [keyof SiteProfileData, string][] = [
-  ["soilPh", "Soil pH"],
-  ["soilOrganicCarbonPct", "Soil organic carbon %"],
-  ["soilMoisturePct", "Soil moisture %"],
-  ["landUseType", "Land use type"],
-  ["regionClimateZone", "Climate zone"],
-  ["avgRainfallMm", "Avg rainfall (mm)"],
-  ["avgTempC", "Avg temperature (°C)"],
-  ["speciesRichnessCount", "Species richness count"],
-  ["habitatDiversityIndex", "Habitat diversity index"],
-  ["pollutionLevel", "Pollution level"],
-  ["deforestationRatePct", "Deforestation rate %"],
-  ["latitude", "Latitude"],
-  ["longitude", "Longitude"],
+const PRESET_SCENARIOS = [
+  {
+    title: "🌾 Semi-Arid Monoculture Wheat (Canonical)",
+    desc: "SOC 0.3%, Low rainfall, Semi-arid monoculture wheat",
+    payload: {
+      soil_organic_carbon_pct: 0.3,
+      rainfall: "low",
+      crop: "monoculture wheat",
+      region: "semi-arid",
+      message: "I farm monoculture wheat in a semi-arid region with low rainfall and 0.3% soil organic carbon. How do I restore biodiversity and soil health?",
+    },
+  },
+  {
+    title: "🌳 Tropical Agroforestry Transition",
+    desc: "High rainfall, degraded cropland, humid tropics",
+    payload: {
+      soil_organic_carbon_pct: 1.2,
+      rainfall: "high",
+      crop: "degraded cropland",
+      region: "tropical",
+      message: "My tropical farm has high rainfall but severe erosion and declining pollinator populations on degraded cropland.",
+    },
+  },
+  {
+    title: "🏜️ Arid Soil Regeneration",
+    desc: "Arid zone, low SOC, severe moisture deficit",
+    payload: {
+      soil_organic_carbon_pct: 0.2,
+      rainfall: "low",
+      crop: "barley monoculture",
+      region: "arid",
+      message: "Arid parcel with 0.2% SOC, low rainfall, barley monoculture experiencing extreme drought vulnerability.",
+    },
+  },
+  {
+    title: "⚠️ Incomplete Input (Clarifying Gate)",
+    desc: "Triggers parameter completeness checks",
+    payload: {
+      message: "Biodiversity is declining rapidly on my land. What should I do?",
+    },
+  },
 ];
 
 function getOrCreateSessionId(): string {
@@ -46,22 +74,26 @@ export default function HomePage() {
     }
     return "";
   });
+
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState<SiteProfileData | null>(null);
   const [missingFields, setMissingFields] = useState<string[]>([]);
-  const [showStructured, setShowStructured] = useState(false);
-  const [structuredForm, setStructuredForm] = useState({
+  const [showStructuredModal, setShowStructuredModal] = useState(false);
+  const [expandedTrace, setExpandedTrace] = useState<Record<string, boolean>>({});
+
+  const [formValues, setFormValues] = useState({
     soil_organic_carbon_pct: "",
-    rainfall: "",
-    land_use: "",
-    region: "",
     soil_ph: "",
+    rainfall: "low",
+    avg_rainfall_mm: "",
+    land_use: "",
+    region: "semi-arid",
     lat: "",
     lon: "",
   });
-  const [expandedDebug, setExpandedDebug] = useState<Record<string, boolean>>({});
+
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,25 +104,27 @@ export default function HomePage() {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, loading]);
 
   async function refreshProfile(sid: string) {
     try {
       const res = await fetch(`/api/profile/${sid}`);
-      const json = await res.json();
-      setProfile(json.profile);
-      setMissingFields(json.missingCriticalFields ?? []);
+      if (res.ok) {
+        const json = await res.json();
+        setProfile(json.profile);
+        setMissingFields(json.missingCriticalFields ?? []);
+      }
     } catch {
-      // ignore
+      // Fallback gracefully
     }
   }
 
-  function pushMessage(msg: DisplayMessage) {
-    setMessages((prev) => [...prev, msg]);
+  function addMessage(msg: DisplayMessage) {
+    setMessages((prev) => [...prev, { ...msg, timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
   }
 
   async function handleResult(result: ChatTurnResult) {
-    pushMessage({
+    addMessage({
       id: crypto.randomUUID(),
       role: "assistant",
       text: result.message,
@@ -101,46 +135,60 @@ export default function HomePage() {
     setMissingFields(result.missingFields ?? []);
   }
 
-  async function sendFreeText() {
-    if (!input.trim() || !sessionId) return;
-    const text = input.trim();
-    setInput("");
-    pushMessage({ id: crypto.randomUUID(), role: "user", text });
+  async function sendFreeText(customText?: string) {
+    const textToSend = customText || input.trim();
+    if (!textToSend || !sessionId || loading) return;
+    if (!customText) setInput("");
+
+    addMessage({
+      id: crypto.randomUUID(),
+      role: "user",
+      text: textToSend,
+    });
+
     setLoading(true);
     try {
       const res = await fetch("/api/chat/message", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId, message: text }),
+        body: JSON.stringify({ sessionId, message: textToSend }),
       });
       const json = (await res.json()) as ChatTurnResult;
       await handleResult(json);
     } catch {
-      pushMessage({ id: crypto.randomUUID(), role: "assistant", text: "⚠️ Something went wrong reaching the reasoning engine." });
+      addMessage({
+        id: crypto.randomUUID(),
+        role: "assistant",
+        text: "⚠️ An error occurred communicating with the Environmental Intelligence Engine. Please check connectivity.",
+      });
     } finally {
       setLoading(false);
     }
   }
 
-  async function sendStructured() {
-    if (!sessionId) return;
+  async function submitStructured() {
+    if (!sessionId || loading) return;
     const payload: Record<string, unknown> = {};
-    if (structuredForm.soil_organic_carbon_pct) payload.soil_organic_carbon_pct = Number(structuredForm.soil_organic_carbon_pct);
-    if (structuredForm.rainfall) payload.rainfall = structuredForm.rainfall;
-    if (structuredForm.land_use) payload.crop = structuredForm.land_use;
-    if (structuredForm.region) payload.region = structuredForm.region;
-    if (structuredForm.soil_ph) payload.soil_ph = Number(structuredForm.soil_ph);
-    if (structuredForm.lat && structuredForm.lon) {
-      payload.coordinates = { lat: Number(structuredForm.lat), lon: Number(structuredForm.lon) };
+    if (formValues.soil_organic_carbon_pct) payload.soil_organic_carbon_pct = Number(formValues.soil_organic_carbon_pct);
+    if (formValues.soil_ph) payload.soil_ph = Number(formValues.soil_ph);
+    if (formValues.rainfall) payload.rainfall = formValues.rainfall;
+    if (formValues.avg_rainfall_mm) payload.avg_rainfall_mm = Number(formValues.avg_rainfall_mm);
+    if (formValues.land_use) payload.crop = formValues.land_use;
+    if (formValues.region) payload.region = formValues.region;
+    if (formValues.lat && formValues.lon) {
+      payload.coordinates = { lat: Number(formValues.lat), lon: Number(formValues.lon) };
     }
+
     if (Object.keys(payload).length === 0) return;
 
-    pushMessage({
+    addMessage({
       id: crypto.randomUUID(),
       role: "user",
-      text: `📊 Structured input: ${JSON.stringify(payload)}`,
+      text: `📊 **Structured Environmental Site Profile Submitted:**\n\`\`\`json\n${JSON.stringify(payload, null, 2)}\n\`\`\``,
     });
+
     setLoading(true);
+    setShowStructuredModal(false);
     try {
       const res = await fetch("/api/chat/structured-input", {
         method: "POST",
@@ -149,259 +197,468 @@ export default function HomePage() {
       });
       const json = (await res.json()) as ChatTurnResult;
       await handleResult(json);
-      setShowStructured(false);
     } catch {
-      pushMessage({ id: crypto.randomUUID(), role: "assistant", text: "⚠️ Something went wrong reaching the reasoning engine." });
+      addMessage({
+        id: crypto.randomUUID(),
+        role: "assistant",
+        text: "⚠️ Error processing structured environmental payload.",
+      });
     } finally {
       setLoading(false);
     }
   }
 
-  async function handleResetProfile() {
+  async function handleResetSession() {
     if (!sessionId) return;
     await fetch(`/api/profile/${sessionId}/reset`, { method: "POST" });
     setMessages([]);
     await refreshProfile(sessionId);
   }
 
-  function loadTestScenario() {
-    setStructuredForm({
-      soil_organic_carbon_pct: "0.3",
-      rainfall: "low",
-      land_use: "monoculture wheat",
-      region: "semi-arid",
-      soil_ph: "",
-      lat: "",
-      lon: "",
-    });
-    setShowStructured(true);
+  function loadPreset(scenario: (typeof PRESET_SCENARIOS)[0]) {
+    if (scenario.payload.soil_organic_carbon_pct !== undefined) {
+      setFormValues({
+        soil_organic_carbon_pct: String(scenario.payload.soil_organic_carbon_pct),
+        soil_ph: "6.8",
+        rainfall: scenario.payload.rainfall || "low",
+        avg_rainfall_mm: scenario.payload.rainfall === "low" ? "200" : "900",
+        land_use: scenario.payload.crop || "monoculture wheat",
+        region: scenario.payload.region || "semi-arid",
+        lat: "32.5",
+        lon: "-102.1",
+      });
+    }
+    sendFreeText(scenario.payload.message);
   }
 
+  const isProfileComplete = profile && profile.soilOrganicCarbonPct !== null && profile.regionClimateZone !== null && profile.landUseType !== null && profile.avgRainfallMm !== null;
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-emerald-50 via-white to-slate-50">
-      <header className="border-b border-emerald-100 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <div className="min-h-screen flex flex-col bg-[#070e0c] text-slate-100">
+      {/* Top Navigation Bar */}
+      <header className="sticky top-0 z-40 border-b border-emerald-500/15 bg-[#091412]/90 backdrop-blur-md px-4 sm:px-8 py-3.5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+            <span className="text-xl">🌿</span>
+          </div>
           <div>
-            <h1 className="text-xl font-semibold text-emerald-900">🌿 Darukaa Biodiversity Intelligence System</h1>
-            <p className="text-sm text-slate-500">AI Environmental Scientist · RAG + causal-graph reasoning</p>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-base tracking-tight text-white">Darukaa.Earth</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                AI Environmental Scientist
+              </span>
+            </div>
+            <p className="text-[11px] text-slate-400 hidden sm:block">Multi-Metric RAG &middot; 2-Hop Causal Reasoning &middot; Peer-Reviewed Scientific Evidence</p>
           </div>
-          <div className="text-right text-xs text-slate-400">
-            <div>session: {sessionId ? sessionId.slice(0, 8) : "…"}</div>
+        </div>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-950/40 border border-emerald-500/20 text-xs text-emerald-300">
+            <span className="text-emerald-400">📚</span>
+            <span>69 Scientific Docs Active</span>
           </div>
+
+          <button
+            onClick={() => setShowStructuredModal(true)}
+            className="px-3 py-1.5 rounded-lg bg-emerald-900/40 hover:bg-emerald-800/60 border border-emerald-500/30 text-emerald-200 hover:text-white text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
+          >
+            <span>📊</span>
+            <span className="hidden sm:inline">Structured Input</span>
+          </button>
+
+          <button
+            onClick={handleResetSession}
+            title="Reset site profile memory"
+            className="px-2.5 py-1.5 rounded-lg bg-slate-900 hover:bg-red-950/50 border border-slate-700 hover:border-red-500/40 text-slate-400 hover:text-red-300 text-xs transition-all cursor-pointer"
+          >
+            Reset
+          </button>
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[1fr_320px]">
-        <section className="flex min-h-[70vh] flex-col rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div className="flex-1 space-y-4 overflow-y-auto px-5 py-5">
-            {messages.length === 0 && (
-              <div className="rounded-xl border border-dashed border-emerald-200 bg-emerald-50/60 p-4 text-sm text-emerald-900">
-                <p className="font-medium">Try the canonical test scenario:</p>
-                <p className="mt-1 text-slate-600">
-                  SOC 0.3%, low rainfall, monoculture wheat, semi-arid region — or just describe your land in plain
-                  text below (e.g. &quot;Biodiversity is declining on my land, semi-arid region&quot;).
+      {/* Main Workspace Body */}
+      <div className="flex-1 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-[330px_1fr] gap-4 p-3 sm:p-5">
+        {/* Left Sidebar: Site Profile Telemetry */}
+        <aside className="flex flex-col gap-3.5 order-2 lg:order-1">
+          {/* Site Profile Telemetry Card */}
+          <div className="glass-panel rounded-2xl p-4 sm:p-5 border border-emerald-500/20 shadow-xl">
+            <div className="flex items-center justify-between pb-3 border-b border-emerald-500/15">
+              <div className="flex items-center gap-2">
+                <span className="text-emerald-400 font-semibold text-sm">📡 Site Profile Memory</span>
+              </div>
+              <span
+                className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                  isProfileComplete
+                    ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40"
+                    : "bg-amber-500/20 text-amber-300 border-amber-500/40"
+                }`}
+              >
+                {isProfileComplete ? "✓ Complete (100%)" : `${4 - (missingFields?.length || 4)}/4 Baseline Fields`}
+              </span>
+            </div>
+
+            {/* Metrics List */}
+            <div className="mt-3.5 space-y-2.5 text-xs">
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#0c1a17] border border-emerald-900/30">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="text-amber-400">🌱</span> Soil Organic Carbon (SOC)
+                </span>
+                <span className="font-mono font-bold text-slate-100">
+                  {profile?.soilOrganicCarbonPct !== null && profile?.soilOrganicCarbonPct !== undefined
+                    ? `${profile.soilOrganicCarbonPct}%`
+                    : "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#0c1a17] border border-emerald-900/30">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="text-cyan-400">🌧️</span> Rainfall Pattern / Precip
+                </span>
+                <span className="font-mono font-bold text-slate-100">
+                  {profile?.rainfallDescriptor
+                    ? `${profile.rainfallDescriptor} (${profile.avgRainfallMm ?? 200}mm)`
+                    : profile?.avgRainfallMm
+                    ? `${profile.avgRainfallMm} mm`
+                    : "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#0c1a17] border border-emerald-900/30">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="text-lime-400">🌾</span> Current Land Use / Crop
+                </span>
+                <span className="font-mono font-semibold text-slate-200 capitalize">
+                  {profile?.landUseType ? profile.landUseType.replace(/_/g, " ") : "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#0c1a17] border border-emerald-900/30">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="text-orange-400">☀️</span> Agro-Climatic Zone
+                </span>
+                <span className="font-mono font-semibold text-slate-200 capitalize">
+                  {profile?.regionClimateZone || "—"}
+                </span>
+              </div>
+
+              <div className="flex items-center justify-between p-2 rounded-lg bg-[#0c1a17] border border-emerald-900/30">
+                <span className="text-slate-400 flex items-center gap-1.5">
+                  <span className="text-purple-400">🧪</span> Soil pH
+                </span>
+                <span className="font-mono text-slate-200">{profile?.soilPh ?? "—"}</span>
+              </div>
+            </div>
+
+            {/* Missing Fields Warning if any */}
+            {missingFields && missingFields.length > 0 && (
+              <div className="mt-3.5 p-2.5 rounded-lg bg-amber-950/30 border border-amber-500/30 text-[11px] text-amber-300">
+                <p className="font-bold flex items-center gap-1 mb-1">
+                  <span>⚠️</span> Missing Baseline Parameters:
                 </p>
+                <p className="text-amber-200/80">{missingFields.join(", ")}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Scenario Launchers */}
+          <div className="glass-panel rounded-2xl p-4 border border-emerald-500/20">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 mb-2.5 flex items-center gap-1.5">
+              <span>⚡</span> Benchmark Test Scenarios
+            </h3>
+            <div className="space-y-2">
+              {PRESET_SCENARIOS.map((sc, idx) => (
                 <button
-                  onClick={loadTestScenario}
-                  className="mt-3 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700"
+                  key={idx}
+                  onClick={() => loadPreset(sc)}
+                  className="w-full text-left p-2.5 rounded-xl bg-[#0a1714] hover:bg-emerald-900/40 border border-emerald-500/15 hover:border-emerald-500/40 transition-all cursor-pointer group"
                 >
-                  Load test scenario into structured form
+                  <p className="text-xs font-semibold text-emerald-300 group-hover:text-emerald-200">{sc.title}</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">{sc.desc}</p>
                 </button>
+              ))}
+            </div>
+          </div>
+        </aside>
+
+        {/* Center Main Chat Panel */}
+        <main className="flex flex-col h-[78vh] glass-panel rounded-2xl border border-emerald-500/20 overflow-hidden shadow-2xl order-1 lg:order-2">
+          {/* Messages Stream */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+            {messages.length === 0 && (
+              <div className="h-full flex flex-col items-center justify-center text-center p-6 sm:p-12">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500/20 to-teal-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl mb-4 glow-emerald">
+                  🌿
+                </div>
+                <h2 className="text-lg sm:text-xl font-bold text-white mb-2">
+                  Welcome to <span className="gradient-text-emerald">Darukaa AI Environmental Scientist</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 max-w-lg mb-6 leading-relaxed">
+                  Engineered with a 69-document peer-reviewed RAG knowledge base, 2-hop causal relationship graph, and
+                  parameter completeness gate to generate scientifically validated ecological restoration plans.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 w-full max-w-lg text-left">
+                  {PRESET_SCENARIOS.slice(0, 2).map((sc, i) => (
+                    <button
+                      key={i}
+                      onClick={() => loadPreset(sc)}
+                      className="p-3 rounded-xl bg-[#0c1e1a]/80 hover:bg-emerald-950/60 border border-emerald-500/20 hover:border-emerald-500/50 transition-all text-xs cursor-pointer"
+                    >
+                      <span className="font-semibold text-emerald-300">{sc.title}</span>
+                      <p className="text-slate-400 text-[11px] mt-1">{sc.desc}</p>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
             {messages.map((m) => (
-              <div key={m.id} className={m.role === "user" ? "flex justify-end" : "flex justify-start"}>
+              <div key={m.id} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={
+                  className={`max-w-[92%] sm:max-w-[85%] rounded-2xl p-4 sm:p-5 ${
                     m.role === "user"
-                      ? "max-w-[85%] rounded-2xl rounded-br-sm bg-emerald-600 px-4 py-2.5 text-sm text-white"
-                      : "max-w-[90%] rounded-2xl rounded-bl-sm border border-slate-200 bg-slate-50 px-4 py-3"
-                  }
+                      ? "bg-gradient-to-r from-emerald-700 to-teal-700 text-white shadow-lg shadow-emerald-950/50 rounded-br-xs"
+                      : "glass-card border border-emerald-500/20 text-slate-100 rounded-bl-xs shadow-xl"
+                  }`}
                 >
-                  {m.role === "user" ? (
-                    <span className="whitespace-pre-wrap">{m.text}</span>
-                  ) : (
-                    <>
-                      <MarkdownLite text={m.text} />
-                      {(m.retrievedKnowledge?.length || m.reasoningLog?.length) && (
-                        <div className="mt-3 border-t border-slate-200 pt-2">
-                          <button
-                            className="text-xs font-medium text-emerald-700 hover:underline"
-                            onClick={() => setExpandedDebug((p) => ({ ...p, [m.id]: !p[m.id] }))}
-                          >
-                            {expandedDebug[m.id] ? "Hide" : "Show"} retrieval &amp; reasoning trace
-                          </button>
-                          {expandedDebug[m.id] && (
-                            <div className="mt-2 space-y-2 text-xs text-slate-600">
-                              {m.retrievedKnowledge?.length ? (
-                                <div>
-                                  <p className="font-semibold text-slate-700">Retrieved knowledge:</p>
-                                  <ul className="mt-1 space-y-0.5">
-                                    {m.retrievedKnowledge.map((r, i) => (
-                                      <li key={i}>
-                                        [source: {r.source}] [category: {r.category}] [similarity: {r.similarity.toFixed(2)}] — {r.topic}
-                                      </li>
-                                    ))}
-                                  </ul>
-                                </div>
-                              ) : null}
-                              {m.reasoningLog?.length ? (
-                                <div>
-                                  <p className="font-semibold text-slate-700">Chain-of-thought (hidden by default):</p>
-                                  <ol className="mt-1 list-decimal space-y-1 pl-4">
-                                    {m.reasoningLog.map((r, i) => (
-                                      <li key={i}>
-                                        <span className="font-medium">{r.step}:</span> {r.content}
-                                      </li>
-                                    ))}
-                                  </ol>
-                                </div>
-                              ) : null}
+                  {/* Role Header */}
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/10 text-[11px] opacity-80">
+                    <span className="font-bold flex items-center gap-1.5">
+                      {m.role === "user" ? (
+                        <>👤 Land Steward</>
+                      ) : (
+                        <>
+                          <span className="text-emerald-400">🌿</span> Darukaa Environmental Scientist
+                        </>
+                      )}
+                    </span>
+                    {m.timestamp && <span>{m.timestamp}</span>}
+                  </div>
+
+                  {/* Body Content */}
+                  <MarkdownLite text={m.text} />
+
+                  {/* Expandable Scientific Trace & Citations */}
+                  {m.role === "assistant" && (m.retrievedKnowledge?.length || m.reasoningLog?.length) ? (
+                    <div className="mt-4 pt-3 border-t border-emerald-900/40">
+                      <button
+                        onClick={() => setExpandedTrace((prev) => ({ ...prev, [m.id]: !prev[m.id] }))}
+                        className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 cursor-pointer"
+                      >
+                        <span>🔬</span>
+                        <span>{expandedTrace[m.id] ? "Hide" : "Inspect"} Scientific Trace &amp; Citations ({m.retrievedKnowledge?.length || 0})</span>
+                      </button>
+
+                      {expandedTrace[m.id] && (
+                        <div className="mt-3 p-3 rounded-xl bg-[#06120f] border border-emerald-500/20 space-y-3 text-xs">
+                          {m.retrievedKnowledge && m.retrievedKnowledge.length > 0 && (
+                            <div>
+                              <p className="font-bold text-slate-300 mb-1.5">Retrieved Scientific Evidence Chunks:</p>
+                              <div className="space-y-1.5">
+                                {m.retrievedKnowledge.map((cit, ci) => (
+                                  <div key={ci} className="p-2 rounded bg-emerald-950/30 border border-emerald-500/10 flex items-start justify-between gap-2">
+                                    <div>
+                                      <span className="font-semibold text-emerald-300">{cit.source}</span>
+                                      <span className="text-slate-400 text-[11px] ml-1.5">&middot; {cit.topic}</span>
+                                      <p className="text-[11px] text-slate-300 mt-0.5 line-clamp-2">{cit.content}</p>
+                                    </div>
+                                    <span className="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-[10px]">
+                                      {Math.round(cit.similarity * 100)}% Match
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {m.reasoningLog && m.reasoningLog.length > 0 && (
+                            <div>
+                              <p className="font-bold text-slate-300 mb-1">Causal Graph &amp; Chain-of-Thought:</p>
+                              <ul className="list-disc pl-4 space-y-1 text-slate-400 text-[11px]">
+                                {m.reasoningLog.map((logItem, li) => (
+                                  <li key={li}>
+                                    <strong className="text-slate-300">{logItem.step}:</strong> {logItem.content}
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
                           )}
                         </div>
                       )}
-                    </>
-                  )}
+                    </div>
+                  ) : null}
                 </div>
               </div>
             ))}
-            {loading && <div className="text-xs text-slate-400">Darukaa is reasoning…</div>}
+
+            {loading && (
+              <div className="flex justify-start">
+                <div className="glass-card rounded-2xl rounded-bl-xs p-4 border border-emerald-500/30 flex items-center gap-3">
+                  <div className="w-5 h-5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin"></div>
+                  <span className="text-xs text-emerald-300 font-medium animate-pulse">
+                    Traversing 2-hop causal graph &amp; evaluating scientific citations...
+                  </span>
+                </div>
+              </div>
+            )}
             <div ref={bottomRef} />
           </div>
 
-          <div className="border-t border-slate-200 p-4">
-            {showStructured && (
-              <div className="mb-3 grid grid-cols-2 gap-2 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm sm:grid-cols-3">
-                <input
-                  className="rounded-lg border border-slate-300 px-2 py-1"
-                  placeholder="SOC % (e.g. 0.3)"
-                  value={structuredForm.soil_organic_carbon_pct}
-                  onChange={(e) => setStructuredForm((f) => ({ ...f, soil_organic_carbon_pct: e.target.value }))}
-                />
-                <select
-                  className="rounded-lg border border-slate-300 px-2 py-1"
-                  value={structuredForm.rainfall}
-                  onChange={(e) => setStructuredForm((f) => ({ ...f, rainfall: e.target.value }))}
-                >
-                  <option value="">Rainfall…</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-                <input
-                  className="rounded-lg border border-slate-300 px-2 py-1"
-                  placeholder="Land use (e.g. monoculture wheat)"
-                  value={structuredForm.land_use}
-                  onChange={(e) => setStructuredForm((f) => ({ ...f, land_use: e.target.value }))}
-                />
-                <input
-                  className="rounded-lg border border-slate-300 px-2 py-1"
-                  placeholder="Region (e.g. semi-arid)"
-                  value={structuredForm.region}
-                  onChange={(e) => setStructuredForm((f) => ({ ...f, region: e.target.value }))}
-                />
-                <input
-                  className="rounded-lg border border-slate-300 px-2 py-1"
-                  placeholder="Soil pH"
-                  value={structuredForm.soil_ph}
-                  onChange={(e) => setStructuredForm((f) => ({ ...f, soil_ph: e.target.value }))}
-                />
-                <div className="flex gap-1">
-                  <input
-                    className="w-1/2 rounded-lg border border-slate-300 px-2 py-1"
-                    placeholder="Lat"
-                    value={structuredForm.lat}
-                    onChange={(e) => setStructuredForm((f) => ({ ...f, lat: e.target.value }))}
-                  />
-                  <input
-                    className="w-1/2 rounded-lg border border-slate-300 px-2 py-1"
-                    placeholder="Lon"
-                    value={structuredForm.lon}
-                    onChange={(e) => setStructuredForm((f) => ({ ...f, lon: e.target.value }))}
-                  />
-                </div>
-                <button
-                  onClick={sendStructured}
-                  className="col-span-2 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700 sm:col-span-3"
-                >
-                  Send structured data
-                </button>
-              </div>
-            )}
-            <div className="flex items-end gap-2">
-              <button
-                onClick={() => setShowStructured((v) => !v)}
-                className="rounded-lg border border-slate-300 px-3 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50"
-                title="Toggle structured JSON input"
-              >
-                📊 JSON
-              </button>
-              <textarea
-                className="min-h-[44px] flex-1 resize-none rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-emerald-500"
-                placeholder="Describe your land, e.g. 'Biodiversity is declining on my land, semi-arid region'"
+          {/* Bottom Chat Input Bar */}
+          <div className="p-3 sm:p-4 bg-[#081412] border-t border-emerald-500/15">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                sendFreeText();
+              }}
+              className="flex items-center gap-2"
+            >
+              <input
+                type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    sendFreeText();
-                  }
-                }}
+                placeholder="Ask your environmental question or describe your parcel (e.g., SOC 0.3%, low rain, semi-arid)..."
+                disabled={loading}
+                className="flex-1 px-4 py-3 rounded-xl bg-[#0c1e1a] border border-emerald-500/25 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 text-sm text-slate-100 placeholder:text-slate-500"
               />
               <button
-                onClick={sendFreeText}
-                disabled={loading}
-                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50"
+                type="submit"
+                disabled={loading || !input.trim()}
+                className="px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 disabled:opacity-40 font-semibold text-sm text-black transition-all flex items-center gap-1.5 cursor-pointer shadow-lg shadow-emerald-900/40"
               >
-                Send
+                <span>Send</span>
+                <span>➔</span>
               </button>
-            </div>
+            </form>
           </div>
-        </section>
-
-        <aside className="space-y-4">
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-            <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold text-slate-800">Site Profile (memory)</h2>
-              <button onClick={handleResetProfile} className="text-xs text-red-500 hover:underline">
-                Reset
-              </button>
-            </div>
-            {missingFields.length > 0 && (
-              <p className="mt-2 rounded-lg bg-amber-50 px-2 py-1 text-xs text-amber-700">
-                Missing critical fields: {missingFields.length}
-              </p>
-            )}
-            <dl className="mt-3 space-y-1.5 text-xs">
-              {PROFILE_FIELD_LABELS.map(([key, label]) => {
-                const value = profile?.[key];
-                const filled = value !== null && value !== undefined && value !== "";
-                return (
-                  <div key={key} className="flex items-center justify-between gap-2">
-                    <dt className="text-slate-500">{label}</dt>
-                    <dd className={filled ? "font-medium text-slate-800" : "text-slate-300"}>
-                      {filled ? String(value) : "—"}
-                    </dd>
-                  </div>
-                );
-              })}
-            </dl>
-          </div>
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-500 shadow-sm">
-            <h2 className="mb-2 text-sm font-semibold text-slate-800">How it works</h2>
-            <ol className="list-decimal space-y-1 pl-4">
-              <li>Extracts entities from your text/JSON into a persistent site profile.</li>
-              <li>Asks a clarifying question if ≥2 critical fields are missing.</li>
-              <li>Retrieves diverse knowledge chunks (soil/biodiversity/climate/land-use).</li>
-              <li>Traverses a causal relationship graph (≥2 hops) for root-cause reasoning.</li>
-              <li>Returns structured, cited, multi-metric recommendations.</li>
-            </ol>
-          </div>
-        </aside>
+        </main>
       </div>
-    </main>
+
+      {/* Structured Parameter Modal Drawer */}
+      {showStructuredModal && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="glass-panel max-w-lg w-full rounded-2xl p-6 border border-emerald-500/30 shadow-2xl space-y-4 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between pb-3 border-b border-emerald-500/20">
+              <h3 className="font-bold text-base text-white flex items-center gap-2">
+                <span>📊</span> Structured Environmental Parameter Input
+              </h3>
+              <button
+                onClick={() => setShowStructuredModal(false)}
+                className="text-slate-400 hover:text-white text-lg leading-none cursor-pointer"
+              >
+                &times;
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Soil Organic Carbon (SOC %)</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  placeholder="e.g. 0.3"
+                  value={formValues.soil_organic_carbon_pct}
+                  onChange={(e) => setFormValues({ ...formValues, soil_organic_carbon_pct: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Soil pH (0 - 14)</label>
+                <input
+                  type="number"
+                  step="0.1"
+                  placeholder="e.g. 6.8"
+                  value={formValues.soil_ph}
+                  onChange={(e) => setFormValues({ ...formValues, soil_ph: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Rainfall Condition</label>
+                <select
+                  value={formValues.rainfall}
+                  onChange={(e) => setFormValues({ ...formValues, rainfall: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                >
+                  <option value="low">Low (&lt; 400 mm/yr)</option>
+                  <option value="moderate">Moderate (400 - 800 mm)</option>
+                  <option value="high">High (&gt; 800 mm/yr)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Climate Zone</label>
+                <select
+                  value={formValues.region}
+                  onChange={(e) => setFormValues({ ...formValues, region: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                >
+                  <option value="semi-arid">Semi-Arid</option>
+                  <option value="arid">Arid</option>
+                  <option value="tropical">Tropical</option>
+                  <option value="temperate">Temperate</option>
+                  <option value="mediterranean">Mediterranean</option>
+                </select>
+              </div>
+
+              <div className="col-span-2">
+                <label className="block text-slate-300 font-medium mb-1">Current Land Use / Crop</label>
+                <input
+                  type="text"
+                  placeholder="e.g. monoculture wheat, agroforestry, degraded pasture"
+                  value={formValues.land_use}
+                  onChange={(e) => setFormValues({ ...formValues, land_use: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Latitude (Optional)</label>
+                <input
+                  type="number"
+                  step="0.0001"
+                  placeholder="e.g. 32.5"
+                  value={formValues.lat}
+                  onChange={(e) => setFormValues({ ...formValues, lat: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                />
+              </div>
+
+              <div>
+                <label className="block text-slate-300 font-medium mb-1">Longitude (Optional)</label>
+                <input
+                  type="number"
+                  step="0.0001"
+                  placeholder="e.g. -102.1"
+                  value={formValues.lon}
+                  onChange={(e) => setFormValues({ ...formValues, lon: e.target.value })}
+                  className="w-full p-2.5 rounded-lg bg-[#0a1815] border border-emerald-500/20 text-slate-100"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-3 border-t border-emerald-500/20">
+              <button
+                type="button"
+                onClick={() => setShowStructuredModal(false)}
+                className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-300"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={submitStructured}
+                className="px-5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-xs font-bold text-black shadow-lg shadow-emerald-900/40"
+              >
+                Evaluate &amp; Reason
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
