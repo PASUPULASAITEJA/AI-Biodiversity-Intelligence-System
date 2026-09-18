@@ -73,18 +73,18 @@ The challenge demands an AI that behaves like an **AI Environmental Scientist**,
 
 ```mermaid
 flowchart TD
-    U[User Input: text / JSON / coords] --> API[/POST /api/chat/message/]
-    API --> EE[Step 1: Entity Extraction & Validation]
-    EE --> PROFILE[(site_profiles: Session Memory)]
-    EE --> CHECK{Step 2: Completeness Check<br/>>=2 critical fields missing?}
-    CHECK -- Yes --> CLARIFY[Return Targeted Clarifying Questions]
-    CHECK -- No --> RETRIEVE[Step 3: Multi-Metric RAG Retrieval<br/>Dense Semantic Search + Metadata Filters]
-    RETRIEVE --> KB[(knowledge_base: 69 Scientific Facts)]
-    RETRIEVE --> GRAPH[Step 4: relationship_graph.py<br/>2-Hop Causal Graph Traversal]
-    GRAPH --> REASON[Step 5: Compounding Stressor Synthesis]
-    REASON --> OUTPUT[Step 6: Structured Output Generation<br/>📋 Action | 🔬 Mechanism | 📊 Metrics | ⏱️ Horizon | ✅ Confidence | 📚 Source]
-    OUTPUT --> LOG[(recommendations_log)]
-    OUTPUT --> RENDER[Streamlit / Next.js Markdown Interface]
+    U["User Input: text / JSON / coords"] --> API["POST /api/chat/message"]
+    API --> EE["Step 1: Entity Extraction & Validation"]
+    EE --> PROFILE[("site_profiles: Session Memory")]
+    EE --> CHECK{"Step 2: Completeness Check<br/>>=2 critical fields missing?"}
+    CHECK -- Yes --> CLARIFY["Return Targeted Clarifying Questions"]
+    CHECK -- No --> RETRIEVE["Step 3: Multi-Metric RAG Retrieval<br/>Dense Semantic Search + Metadata Filters"]
+    RETRIEVE --> KB[("knowledge_base: 69 Scientific Facts")]
+    RETRIEVE --> GRAPH["Step 4: relationship_graph.py<br/>2-Hop Causal Graph Traversal"]
+    GRAPH --> REASON["Step 5: Compounding Stressor Synthesis"]
+    REASON --> OUTPUT["Step 6: Structured Output Generation<br/>Action • Mechanism • Metrics • Horizon • Confidence • Source"]
+    OUTPUT --> LOG[("recommendations_log")]
+    OUTPUT --> RENDER["Next.js / Streamlit Markdown Interface"]
     RENDER --> U
 ```
 
